@@ -3,3 +3,4 @@ biggerDisplay: false
 foodScore: 20
 timeBonus: 2
 timeBonusesPerFood: 7
+snakeBlock: PURPLE_STAINED_GLASS_PANE

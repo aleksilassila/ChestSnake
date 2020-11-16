@@ -24,7 +24,8 @@ public class SnakeGame extends BukkitRunnable {
     private final int TIME_BONUS = ChestSnake.instance.getConfig().getInt("timeBonus");
     private final int TIME_BONUSES_PER_FOOD = ChestSnake.instance.getConfig().getInt("timeBonusesPerFood");
     private final int FOOD_SCORE = ChestSnake.instance.getConfig().getInt("foodScore");
-
+    private final Material snakeMaterial = Material.valueOf(ChestSnake.instance.getConfig().getString("snakeBlock", "GREEN_WOOL"));
+    
     // Score
     private int score = 0;
     private int timeBonusesLeft = TIME_BONUSES_PER_FOOD;
@@ -116,9 +117,9 @@ public class SnakeGame extends BukkitRunnable {
         // Update and draw screen
         gamePane.clear();
 
-        gamePane.addItem(new GuiItem(new ItemStack(Material.GREEN_STAINED_GLASS)), head[0], head[1]);
+        gamePane.addItem(new GuiItem(new ItemStack(snakeMaterial)), head[0], head[1]);
         for (int[] pos : body) {
-            gamePane.addItem(new GuiItem(new ItemStack(Material.GREEN_STAINED_GLASS)), pos[0], pos[1]);
+            gamePane.addItem(new GuiItem(new ItemStack(snakeMaterial)), pos[0], pos[1]);
         }
         gamePane.addItem(new GuiItem(new ItemStack(Material.APPLE)), apple[0], apple[1]);
 
