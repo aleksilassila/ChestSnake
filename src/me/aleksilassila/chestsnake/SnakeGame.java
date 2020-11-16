@@ -18,11 +18,20 @@ public class SnakeGame extends BukkitRunnable {
     private final Gui gui;
     private final StaticPane gamePane;
 
-    public static final int GAME_WIDTH = 9 - 1;
-    public static final int GAME_HEIGHT = 4 - 1;
+    public final int GAME_WIDTH = 9 - 1;
+    public final int GAME_HEIGHT = (ChestSnake.instance.getConfig().getBoolean("biggerDisplay", false) ? 6 : 4) - 1;
+    private final long DELAY = Math.round(20 / (double) ChestSnake.instance.getConfig().getInt("speed"));
+    private final int TIME_BONUS = ChestSnake.instance.getConfig().getInt("timeBonus");
+    private final int TIME_BONUSES_PER_FOOD = ChestSnake.instance.getConfig().getInt("timeBonusesPerFood");
+    private final int FOOD_SCORE = ChestSnake.instance.getConfig().getInt("foodScore");
 
-    private int snakeLength = 2;
+    // Score
+    private int score = 0;
+    private int timeBonusesLeft = TIME_BONUSES_PER_FOOD;
+
     private Direction direction = Direction.RIGHT;
+    private Direction lastDirection = Direction.RIGHT;
+    private int snakeLength = 2;
     private final int[] head = new int[]{1,0};
     private final ArrayList<int[]> body = new ArrayList<>(Collections.singletonList(new int[]{0, 0}));
     private int[] apple = getApple();
@@ -33,7 +42,7 @@ public class SnakeGame extends BukkitRunnable {
         this.gamePane = new StaticPane(0, 0, GAME_WIDTH + 1, GAME_HEIGHT + 1);
         gui.addPane(gamePane);
 
-        runTaskTimer(ChestSnake.instance, 0, 15);
+        runTaskTimer(ChestSnake.instance, 0, DELAY);
     }
 
     public Player getPlayer() {
@@ -41,14 +50,20 @@ public class SnakeGame extends BukkitRunnable {
     }
 
     public void setDirection(Direction newDirection) {
-        if (newDirection.getAxis() != direction.getAxis())
+        if (newDirection.getAxis() != lastDirection.getAxis())
             direction = newDirection;
     }
 
     public void endGame() {
-        this.cancel();
+        Messages.send(player, "GAME_RESULT", score);
 
-        Messages.send(player, "GAME_RESULT", snakeLength - 1);
+        if (ChestSnake.instance.getHighscore(player) < score) {
+            ChestSnake.instance.setHighscore(player, score);
+            Messages.send(player, "NEW_RECORD");
+        }
+
+        this.cancel();
+        player.closeInventory();
     }
 
     private int[] getApple() {
@@ -90,7 +105,13 @@ public class SnakeGame extends BukkitRunnable {
         if (positionsEqual(head, apple)) {
             apple = getApple();
             snakeLength++;
+            score += FOOD_SCORE + timeBonusesLeft * TIME_BONUS;
+            timeBonusesLeft = TIME_BONUSES_PER_FOOD;
+        } else {
+            timeBonusesLeft = Math.max(0, timeBonusesLeft - 1);
         }
+
+        lastDirection = direction;
 
         // Update and draw screen
         gamePane.clear();

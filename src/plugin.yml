@@ -6,3 +6,14 @@ commands:
   snake:
     usage: /<command>
     description: Main command
+permissions:
+  chestsnake.*:
+    children:
+      chestsnake.play: true
+      chestsnake.highscores.view: true
+  chestsnake.play:
+    description: Play ChestSnake
+    default: true
+  chestsnake.highscores.view:
+    description: View Highscores
+    default: true

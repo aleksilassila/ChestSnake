@@ -3,6 +3,7 @@ package me.aleksilassila.chestsnake.commands;
 import com.sun.istack.internal.Nullable;
 import me.aleksilassila.chestsnake.ChestSnake;
 import me.aleksilassila.chestsnake.commands.subcommands.HelpSubcommand;
+import me.aleksilassila.chestsnake.commands.subcommands.HighscoresSubcommand;
 import me.aleksilassila.chestsnake.commands.subcommands.PlaySubcommand;
 import me.aleksilassila.chestsnake.utils.Messages;
 import me.aleksilassila.chestsnake.utils.Permissions;
@@ -26,6 +27,7 @@ public class ChestSnakeCommand implements TabExecutor {
 
         subcommands.add(new PlaySubcommand());
         subcommands.add(new HelpSubcommand());
+        subcommands.add(new HighscoresSubcommand());
     }
 
     @Override
@@ -77,6 +79,10 @@ public class ChestSnakeCommand implements TabExecutor {
 
         for (Subcommand subcommand : subcommands) {
             if (subcommand.getName().equalsIgnoreCase(name)) return subcommand;
+
+            for (String alias : subcommand.getAliases()) {
+                if (alias.equalsIgnoreCase(name)) return subcommand;
+            }
         }
 
         return null;

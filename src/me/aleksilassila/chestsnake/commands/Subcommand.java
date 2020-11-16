@@ -9,6 +9,9 @@ public abstract class Subcommand {
     public List<String> onTabComplete(Player player, String[] args) {
         return new ArrayList<>();
     }
+    public String[] getAliases() {
+        return new String[0];
+    }
 
     public abstract void onCommand(Player player, String[] args);
     public abstract String getName();

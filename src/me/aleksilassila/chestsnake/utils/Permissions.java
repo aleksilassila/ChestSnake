@@ -3,7 +3,7 @@ package me.aleksilassila.chestsnake.utils;
 import org.bukkit.entity.Player;
 
 public enum Permissions {
-    CHESTSNAKE("chestsnake"),
+    VIEW_HIGHSCORES("chestsnake.highscores.view"),
     PLAY("chestsnake.play");
 
     private final String permission;

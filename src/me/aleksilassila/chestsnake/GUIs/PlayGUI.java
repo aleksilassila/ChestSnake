@@ -5,6 +5,7 @@ import com.github.stefvanschie.inventoryframework.GuiItem;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import me.aleksilassila.chestsnake.ChestSnake;
 import me.aleksilassila.chestsnake.SnakeGame;
 import me.aleksilassila.chestsnake.SnakeGame.Direction;
 import me.aleksilassila.chestsnake.utils.Messages;
@@ -14,45 +15,94 @@ import org.bukkit.entity.Player;
 
 public class PlayGUI extends GUI {
     private final Player player;
-    private final Gui gui;
-    private final SnakeGame game;
+    private Gui gameGui;
+    private SnakeGame game;
 
     public PlayGUI(Player player) {
         this.player = player;
-        this.gui = getMainGui();
-        this.game = new SnakeGame(player, gui);
 
-        gui.show(player);
+        getMainGui().show(player);
+    }
+
+    private Direction getHotbarButtonDirection(int i) {
+        switch (i) {
+            case 0:
+                return Direction.LEFT;
+            case 1:
+                return Direction.UP;
+            case 2:
+                return Direction.RIGHT;
+            default:
+                return Direction.DOWN;
+        }
     }
 
     @Override
     public Gui getMainGui() {
-        Gui gui = new Gui(6, Messages.get("gui.play.TITLE"));
+        Gui gui = new Gui(3, Messages.get("gui.play.TITLE"));
         gui.setOnGlobalClick(inventoryClickEvent -> inventoryClickEvent.setCancelled(true));
-        gui.setOnClose(event -> game.endGame());
 
-        OutlinePane background = new OutlinePane(0, 4, 9, 2, Pane.Priority.LOWEST);
+        // Background
+        OutlinePane background = new OutlinePane(0, 0, 9, 3, Pane.Priority.LOWEST);
         background.addItem(new GuiItem(createGuiItem(Material.GRAY_STAINED_GLASS_PANE, ChatColor.RESET + "", false)));
         background.setRepeat(true);
 
         gui.addPane(background);
 
+        // Menu
+        StaticPane menu = new StaticPane(3, 1, 3, 1);
+        menu.addItem(new GuiItem(createGuiItem(Material.IRON_SWORD, "Play", true), inventoryClickEvent -> {
+            this.gameGui = getGameGui();
+            this.game = new SnakeGame(player, gameGui);
+
+            gameGui.show(player);
+        }), 0, 0);
+
+        gui.addPane(menu);
+
+        return gui;
+    }
+
+    public Gui getGameGui() {
+        Gui gui = new Gui(6, Messages.get("gui.play.TITLE"));
+        gui.setOnGlobalClick(inventoryClickEvent -> inventoryClickEvent.setCancelled(true));
+        gui.setOnClose(event -> {
+            if (!game.isCancelled())
+                game.endGame();
+        });
+
+        if (!ChestSnake.instance.getConfig().getBoolean("biggerDisplay", false)) {
+            OutlinePane background = new OutlinePane(0, 4, 9, 2, Pane.Priority.LOWEST);
+            background.addItem(new GuiItem(createGuiItem(Material.GRAY_STAINED_GLASS_PANE, ChatColor.RESET + "", false)));
+            background.setRepeat(true);
+
+            gui.addPane(background);
+        }
+
         StaticPane controls = new StaticPane(3, 4, 3, 2, Pane.Priority.HIGHEST);
 
         controls.addItem(new GuiItem(createGuiItem(Material.WHITE_STAINED_GLASS_PANE, "Left", true), inventoryClickEvent -> {
-            game.setDirection(Direction.LEFT);
+            if (inventoryClickEvent.getHotbarButton() == -1)
+                game.setDirection(Direction.LEFT);
+            else game.setDirection(getHotbarButtonDirection(inventoryClickEvent.getHotbarButton()));
         }), 0, 1);
 
         controls.addItem(new GuiItem(createGuiItem(Material.WHITE_STAINED_GLASS_PANE, "Right", true), inventoryClickEvent -> {
-            game.setDirection(Direction.RIGHT);
+            if (inventoryClickEvent.getHotbarButton() == -1)
+                game.setDirection(Direction.RIGHT);
+            else game.setDirection(getHotbarButtonDirection(inventoryClickEvent.getHotbarButton()));
         }), 2, 1);
 
         controls.addItem(new GuiItem(createGuiItem(Material.WHITE_STAINED_GLASS_PANE, "Up", true), inventoryClickEvent -> {
-            game.setDirection(Direction.UP);
+            if (inventoryClickEvent.getHotbarButton() == -1)
+                game.setDirection(Direction.UP);
+            else game.setDirection(getHotbarButtonDirection(inventoryClickEvent.getHotbarButton()));
         }), 1, 0);
 
         controls.addItem(new GuiItem(createGuiItem(Material.WHITE_STAINED_GLASS_PANE, "Down", true), inventoryClickEvent -> {
-            game.setDirection(Direction.DOWN);
+            if (inventoryClickEvent.getHotbarButton() == -1)
+                game.setDirection(Direction.DOWN);
+            else game.setDirection(getHotbarButtonDirection(inventoryClickEvent.getHotbarButton()));
         }), 1, 1);
 
         gui.addPane(controls);
