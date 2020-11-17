@@ -41,7 +41,7 @@ public class HighscoresSubcommand extends Subcommand {
 
     @Override
     public String help() {
-        return null;
+        return "Show scoreboard";
     }
 
     @Override

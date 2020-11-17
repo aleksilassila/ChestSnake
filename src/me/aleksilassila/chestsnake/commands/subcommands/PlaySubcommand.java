@@ -18,7 +18,7 @@ public class PlaySubcommand extends Subcommand {
 
     @Override
     public String help() {
-        return null;
+        return "Play ChestSnake";
     }
 
     @Override

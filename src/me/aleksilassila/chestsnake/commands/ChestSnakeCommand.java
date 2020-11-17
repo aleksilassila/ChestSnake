@@ -15,18 +15,15 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 public class ChestSnakeCommand implements TabExecutor {
-    private final ChestSnake plugin;
     public final Set<Subcommand> subcommands;
 
     public ChestSnakeCommand() {
-        this.plugin = ChestSnake.instance;
-
-        plugin.getCommand("snake").setExecutor(this);
+        ChestSnake.instance.getCommand("snake").setExecutor(this);
 
         subcommands = new HashSet<>();
 
         subcommands.add(new PlaySubcommand());
-        subcommands.add(new HelpSubcommand());
+        subcommands.add(new HelpSubcommand(this));
         subcommands.add(new HighscoresSubcommand());
     }
 

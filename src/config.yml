@@ -1,6 +1,7 @@
-speed: 1.5
-biggerDisplay: false
-foodScore: 20
-timeBonus: 2
-timeBonusesPerFood: 7
-snakeBlock: PURPLE_STAINED_GLASS_PANE
+speed: 1.5                              # Ticks per second
+biggerDisplay: false                    # Make the display 6x9 instead of 3x9
+foodScore: 20                           # How much score eating food gives
+timeBonus: 2                            # How much score one time bonus gives. When snake moves, it loses one time bonus.
+timeBonusesPerFood: 7                   # Time bonuses per food. Eating food will reset amount of time bonuses.
+snakeBlock: PURPLE_STAINED_GLASS_PANE   # What block will be used to display snake. (Spigot Material ENUM)
+backgroundBlock: none                   # What block will be used to fill the game background. (Spigot Material ENUM)

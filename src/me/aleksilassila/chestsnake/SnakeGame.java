@@ -2,9 +2,14 @@ package me.aleksilassila.chestsnake;
 
 import com.github.stefvanschie.inventoryframework.Gui;
 import com.github.stefvanschie.inventoryframework.GuiItem;
+import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
+import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import me.aleksilassila.chestsnake.GUIs.GUI;
 import me.aleksilassila.chestsnake.utils.Messages;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -24,9 +29,8 @@ public class SnakeGame extends BukkitRunnable {
     private final int TIME_BONUS = ChestSnake.instance.getConfig().getInt("timeBonus");
     private final int TIME_BONUSES_PER_FOOD = ChestSnake.instance.getConfig().getInt("timeBonusesPerFood");
     private final int FOOD_SCORE = ChestSnake.instance.getConfig().getInt("foodScore");
-    private final Material snakeMaterial = Material.valueOf(ChestSnake.instance.getConfig().getString("snakeBlock", "GREEN_WOOL"));
+    private Material snakeMaterial;
     
-    // Score
     private int score = 0;
     private int timeBonusesLeft = TIME_BONUSES_PER_FOOD;
 
@@ -42,6 +46,24 @@ public class SnakeGame extends BukkitRunnable {
         this.gui = gui;
         this.gamePane = new StaticPane(0, 0, GAME_WIDTH + 1, GAME_HEIGHT + 1);
         gui.addPane(gamePane);
+
+        // Game background
+        Material backgroundMaterial = parseMaterial(ChestSnake.instance.getConfig().getString("backgroundBlock"));
+
+        if (backgroundMaterial != null) {
+            OutlinePane background = new OutlinePane(0, 0, 9, GAME_HEIGHT + 1, Pane.Priority.LOWEST);
+            background.addItem(new GuiItem(GUI.createGuiItem(backgroundMaterial, ChatColor.RESET + "", false)));
+            background.setRepeat(true);
+
+            gui.addPane(background);
+        }
+
+        this.snakeMaterial = parseMaterial(ChestSnake.instance.getConfig().getString("snakeBlock", "BUBBLE_CORAL_BLOCK"));
+
+        if (snakeMaterial == null) {
+            ChestSnake.instance.getLogger().severe("Invalid snake material");
+            this.snakeMaterial = Material.BUBBLE_CORAL_BLOCK;
+        }
 
         runTaskTimer(ChestSnake.instance, 0, DELAY);
     }
@@ -124,6 +146,15 @@ public class SnakeGame extends BukkitRunnable {
         gamePane.addItem(new GuiItem(new ItemStack(Material.APPLE)), apple[0], apple[1]);
 
         gui.update();
+    }
+
+    @Nullable
+    private Material parseMaterial(String materialString) {
+        try {
+            return Material.valueOf(materialString);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 
     private boolean containsPosition(ArrayList<int[]> list, int[] pos) {

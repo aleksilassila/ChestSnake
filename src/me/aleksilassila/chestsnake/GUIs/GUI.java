@@ -24,7 +24,7 @@ public abstract class GUI {
         getMainGui().show(getPlayer());
     }
 
-    protected ItemStack createGuiItem(final Material material, final String name, boolean shiny, final String... lore) {
+    public static ItemStack createGuiItem(final Material material, final String name, boolean shiny, final String... lore) {
         final ItemStack item = new ItemStack(material, 1);
         final ItemMeta meta = item.getItemMeta();
 
