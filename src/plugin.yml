@@ -1,7 +1,7 @@
 name: ChestSnake
 main: me.aleksilassila.chestsnake.ChestSnake
 version: 1.0.0
-api-version: 1.16
+api-version: 1.15
 commands:
   snake:
     usage: /<command>
