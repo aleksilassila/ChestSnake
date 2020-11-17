@@ -4,6 +4,7 @@ import com.sun.istack.internal.Nullable;
 import javafx.util.Pair;
 import me.aleksilassila.chestsnake.commands.ChestSnakeCommand;
 import me.aleksilassila.chestsnake.utils.Messages;
+import me.aleksilassila.chestsnake.utils.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -27,6 +28,19 @@ public class ChestSnake extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
+        new UpdateChecker(85867).getVersion(version -> {
+            String majorVersion = version.substring(0,version.lastIndexOf("."));
+            String thisMajorVersion = this.getDescription().getVersion().substring(0, this.getDescription().getVersion().lastIndexOf("."));
+
+            if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
+                getLogger().info("You are up to date.");
+            } else if (!majorVersion.equalsIgnoreCase(thisMajorVersion)) {
+                getLogger().warning("There's a new major update available!");
+            } else {
+                getLogger().info("There's a new minor update available!");
+            }
+        });
 
         // Initialize everything
         getConfig().options().copyDefaults(true);
