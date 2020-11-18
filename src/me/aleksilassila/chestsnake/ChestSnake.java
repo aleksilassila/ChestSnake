@@ -4,6 +4,7 @@ import com.sun.istack.internal.Nullable;
 import javafx.util.Pair;
 import me.aleksilassila.chestsnake.commands.ChestSnakeCommand;
 import me.aleksilassila.chestsnake.utils.Messages;
+import me.aleksilassila.chestsnake.utils.Metrics;
 import me.aleksilassila.chestsnake.utils.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -41,6 +42,8 @@ public class ChestSnake extends JavaPlugin {
                 getLogger().info("There's a new minor update available!");
             }
         });
+
+        new Metrics(this, 9446);
 
         // Initialize everything
         getConfig().options().copyDefaults(true);
