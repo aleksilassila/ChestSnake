@@ -60,11 +60,6 @@ public class SnakeGame extends BukkitRunnable {
 
         this.snakeMaterial = parseMaterial(ChestSnake.instance.getConfig().getString("snakeBlock", "BUBBLE_CORAL_BLOCK"));
 
-        if (snakeMaterial == null) {
-            ChestSnake.instance.getLogger().severe("Invalid snake material");
-            this.snakeMaterial = Material.BUBBLE_CORAL_BLOCK;
-        }
-
         runTaskTimer(ChestSnake.instance, 0, DELAY);
     }
 

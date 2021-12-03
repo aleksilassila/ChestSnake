@@ -16,10 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 import java.util.logging.Level;
 
 public class ChestSnake extends JavaPlugin {
@@ -61,8 +58,8 @@ public class ChestSnake extends JavaPlugin {
         }
     }
 
-    public ArrayList<Pair<String, Integer>> getTopPlayers() {
-        ArrayList<Pair<String, Integer>> topPlayers = new ArrayList<>();
+    public List<Pair<String, Integer>> getTopPlayers() {
+        List<Pair<String, Integer>> topPlayers = new ArrayList<>();
 
         for (String uuid : getHighscoresConfig().getKeys(false)) {
             topPlayers.add(new Pair<>(uuid, getHighscoresConfig().getInt(uuid)));
@@ -71,9 +68,9 @@ public class ChestSnake extends JavaPlugin {
         topPlayers.sort(Comparator.comparingInt(Pair::getValue));
         Collections.reverse(topPlayers);
 
-
-        while (topPlayers.size() > 10)
-            topPlayers.remove(topPlayers.size() - 1);
+        if(topPlayers.size() > 10) {
+            topPlayers = topPlayers.subList(0, 10);
+        }
 
         return topPlayers;
     }
