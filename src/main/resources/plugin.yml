@@ -3,7 +3,6 @@ main: me.aleksilassila.chestsnake.ChestSnake
 version: '${project.version}'
 api-version: 1.18
 softdepend: [PlaceholderAPI]
-author: aleksilassila
 authors:
   - aleksilassila
   - sehrschlechtYT
