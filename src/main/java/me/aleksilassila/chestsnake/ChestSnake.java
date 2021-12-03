@@ -1,10 +1,9 @@
 package me.aleksilassila.chestsnake;
 
-import com.sun.istack.internal.Nullable;
-import javafx.util.Pair;
 import me.aleksilassila.chestsnake.commands.ChestSnakeCommand;
 import me.aleksilassila.chestsnake.utils.Messages;
 import me.aleksilassila.chestsnake.utils.Metrics;
+import me.aleksilassila.chestsnake.utils.Pair;
 import me.aleksilassila.chestsnake.utils.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -12,12 +11,15 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.logging.Level;
 
 public class ChestSnake extends JavaPlugin {
     public static ChestSnake instance;
@@ -36,10 +38,10 @@ public class ChestSnake extends JavaPlugin {
 
             if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
                 getLogger().info("You are up to date.");
-            } else if (!majorVersion.equalsIgnoreCase(thisMajorVersion)) {
-                getLogger().warning("There's a new major update available!");
-            } else {
+            } else if (majorVersion.equalsIgnoreCase(thisMajorVersion)) {
                 getLogger().info("There's a new minor update available!");
+            } else {
+                getLogger().warning("There's a new major update available!");
             }
         });
 
@@ -101,22 +103,19 @@ public class ChestSnake extends JavaPlugin {
         if (!highscoresFile.exists()) {
             highscoresFile.getParentFile().mkdirs();
             saveResource("highscores.yml", false);
-         }
+        }
 
         highscores = new YamlConfiguration();
         try {
             highscores.load(highscoresFile);
         } catch (IOException | InvalidConfigurationException e) {
+            getLogger().log(Level.SEVERE, "Unable to load highscores");
             e.printStackTrace();
         }
     }
 
     @Nullable
     public static OfflinePlayer getOfflinePlayer(String name) {
-        for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
-            if (name.equalsIgnoreCase(player.getName())) return player;
-        }
-
-        return null;
+        return Arrays.stream(Bukkit.getOfflinePlayers()).filter(p -> p.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 }

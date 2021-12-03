@@ -1,7 +1,7 @@
 package me.aleksilassila.chestsnake;
 
-import com.github.stefvanschie.inventoryframework.Gui;
-import com.github.stefvanschie.inventoryframework.GuiItem;
+import com.github.stefvanschie.inventoryframework.gui.GuiItem;
+import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
@@ -9,10 +9,10 @@ import me.aleksilassila.chestsnake.GUIs.GUI;
 import me.aleksilassila.chestsnake.utils.Messages;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +20,7 @@ import java.util.Random;
 
 public class SnakeGame extends BukkitRunnable {
     private final Player player;
-    private final Gui gui;
+    private final ChestGui gui;
     private final StaticPane gamePane;
 
     public final int GAME_WIDTH = 9 - 1;
@@ -30,7 +30,7 @@ public class SnakeGame extends BukkitRunnable {
     private final int TIME_BONUSES_PER_FOOD = ChestSnake.instance.getConfig().getInt("timeBonusesPerFood");
     private final int FOOD_SCORE = ChestSnake.instance.getConfig().getInt("foodScore");
     private Material snakeMaterial;
-    
+
     private int score = 0;
     private int timeBonusesLeft = TIME_BONUSES_PER_FOOD;
 
@@ -41,7 +41,7 @@ public class SnakeGame extends BukkitRunnable {
     private final ArrayList<int[]> body = new ArrayList<>(Collections.singletonList(new int[]{0, 0}));
     private int[] apple = getApple();
 
-    public SnakeGame(Player player, Gui gui) {
+    public SnakeGame(Player player, ChestGui gui) {
         this.player = player;
         this.gui = gui;
         this.gamePane = new StaticPane(0, 0, GAME_WIDTH + 1, GAME_HEIGHT + 1);
@@ -169,7 +169,7 @@ public class SnakeGame extends BukkitRunnable {
         return pos1[0] == pos2[0] && pos1[1] == pos2[1];
     }
 
-     public enum Direction {
+    public enum Direction {
         UP,
         DOWN,
         LEFT,
