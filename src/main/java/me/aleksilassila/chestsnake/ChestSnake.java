@@ -1,6 +1,7 @@
 package me.aleksilassila.chestsnake;
 
 import me.aleksilassila.chestsnake.commands.ChestSnakeCommand;
+import me.aleksilassila.chestsnake.placerholderapi.ChestSnakeExpansion;
 import me.aleksilassila.chestsnake.utils.Messages;
 import me.aleksilassila.chestsnake.utils.Metrics;
 import me.aleksilassila.chestsnake.utils.Pair;
@@ -54,6 +55,10 @@ public class ChestSnake extends JavaPlugin {
         Messages.init();
 
         new ChestSnakeCommand();
+
+        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new ChestSnakeExpansion(this).register();
+        }
     }
 
     public ArrayList<Pair<String, Integer>> getTopPlayers() {
@@ -65,6 +70,7 @@ public class ChestSnake extends JavaPlugin {
 
         topPlayers.sort(Comparator.comparingInt(Pair::getValue));
         Collections.reverse(topPlayers);
+
 
         while (topPlayers.size() > 10)
             topPlayers.remove(topPlayers.size() - 1);
