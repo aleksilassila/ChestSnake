@@ -1,0 +1,35 @@
+speed: 1.5                              # Ticks per second
+biggerDisplay: false                    # Make the display 6x9 instead of 3x9
+foodScore: 20                           # How much score eating food gives
+timeBonus: 2                            # How much score one time bonus gives. When snake moves, it loses one time bonus.
+timeBonusesPerFood: 7                   # Time bonuses per food. Eating food will reset amount of time bonuses.
+snakeBlock: BUBBLE_CORAL_BLOCK          # What block will be used to display snake. (Spigot Material ENUM)
+backgroundBlock: none                   # What block will be used to fill the game background. (Spigot Material ENUM)
+
+messages:
+  error_SUBCOMMAND_NOT_FOUND: "§7[§4§lError§7] §cInvalid subcommand."
+  error_ERROR: "§7[§4§lError§7] §cAn internal error occurred. Contact staff."
+  info_VERSION_INFO: "§7§lChestSnake §7v{0}"
+  info_AVAILABLE_SUBCOMMANDS: "§7== §d§lAvailable Subcommands§7 =="
+  info_AVAILABLE_SUBCOMMAND: "§7 - §d§l{0}: §7{1}"
+  info_HOW_TO_PLAY: |
+    §7== §d§lHow To Play?§7 ============
+    §7Move around using §dGUI buttons§7, or use
+    §7§dhotkeys (1, 2, 3, 4)§7 on any of the GUI buttons.
+    §7Hotkey mappings: 1 - left, 2 - up, 3 - right, 4 - down\n
+    §7Grow your snake and score by eating §dfood§7.
+    §7You will earn §dextra score§7 based on
+    §7how quickly you can get to the next food.
+
+  gui_play_TITLE: "§d-= §6§lChestSnake§r§d =-"
+  gui_menu_PLAY: "§d§lPlay"
+  gui_menu_PLAY_LORE: "§7Classic game of snake\n§7with public scoreboard"
+  gui_menu_PLAY_CUSTOM: "§d§lCustom Game"
+  gui_menu_PLAY_CUSTOM_LORE: "§7Your game, your rules"
+  gui_menu_HELP: "§d§lHow To Play?"
+
+  GAME_RESULT: "§7[§6§lChestSnake§7] §c§lGame over!\n§3Your score: §d§l{0}"
+
+  NEW_RECORD: "§7[§6§lChestSnake§7] §d§lNew record!"
+  HIGHSCORES: "§d--== §6§lChestSnake§r§d - Top 10 ==--"
+  HIGHSCORE_ITEM: "§d§l{0}. §3{1}: §d{2}"

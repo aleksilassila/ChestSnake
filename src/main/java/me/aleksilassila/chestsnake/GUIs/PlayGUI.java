@@ -1,7 +1,7 @@
 package me.aleksilassila.chestsnake.GUIs;
 
-import com.github.stefvanschie.inventoryframework.Gui;
-import com.github.stefvanschie.inventoryframework.GuiItem;
+import com.github.stefvanschie.inventoryframework.gui.GuiItem;
+import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 
 public class PlayGUI extends GUI {
     private final Player player;
-    private Gui gameGui;
+    private ChestGui gameGui;
     private SnakeGame game;
 
     public PlayGUI(Player player) {
@@ -38,8 +38,8 @@ public class PlayGUI extends GUI {
     }
 
     @Override
-    public Gui getMainGui() {
-        Gui gui = new Gui(3, Messages.get("gui.play.TITLE"));
+    public ChestGui getMainGui() {
+        ChestGui gui = new ChestGui(3, Messages.get("gui_play_TITLE"));
         gui.setOnGlobalClick(inventoryClickEvent -> inventoryClickEvent.setCancelled(true));
 
         // Background
@@ -51,24 +51,24 @@ public class PlayGUI extends GUI {
 
         // Menu
         StaticPane menu = new StaticPane(2, 1, 5, 1);
-        menu.addItem(new GuiItem(createGuiItem(Material.IRON_SWORD, Messages.get("gui.menu.PLAY"),
-                true, Messages.get("gui.menu.PLAY_LORE")), inventoryClickEvent -> {
+        menu.addItem(new GuiItem(createGuiItem(Material.IRON_SWORD, Messages.get("gui_menu_PLAY"),
+                true, Messages.get("gui_menu_PLAY_LORE")), inventoryClickEvent -> {
             this.gameGui = getGameGui();
             this.game = new SnakeGame(player, gameGui);
 
             gameGui.show(player);
         }), 0, 0);
 
-        menu.addItem(new GuiItem(createGuiItem(Material.IRON_AXE, Messages.get("gui.menu.PLAY_CUSTOM"),
-                true, Messages.get("gui.menu.PLAY_CUSTOM_LORE")), inventoryClickEvent -> {
+        menu.addItem(new GuiItem(createGuiItem(Material.IRON_AXE, Messages.get("gui_menu_PLAY_CUSTOM"),
+                true, Messages.get("gui_menu_PLAY_CUSTOM_LORE")), inventoryClickEvent -> {
             this.gameGui = getGameGui();
             this.game = new SnakeGame(player, gameGui);
 
             gameGui.show(player);
         }), 2, 0);
 
-        menu.addItem(new GuiItem(createGuiItem(Material.COMPASS, Messages.get("gui.menu.HELP"),
-                true, Messages.get("gui.menu.PLAY_CUSTOM_LORE")), inventoryClickEvent -> {
+        menu.addItem(new GuiItem(createGuiItem(Material.COMPASS, Messages.get("gui_menu_HELP"),
+                true, Messages.get("gui_menu_PLAY_CUSTOM_LORE")), inventoryClickEvent -> {
             this.gameGui = getGameGui();
             this.game = new SnakeGame(player, gameGui);
 
@@ -80,8 +80,8 @@ public class PlayGUI extends GUI {
         return gui;
     }
 
-    public Gui getGameGui() {
-        Gui gui = new Gui(6, Messages.get("gui.play.TITLE"));
+    public ChestGui getGameGui() {
+        ChestGui gui = new ChestGui(6, Messages.get("gui_play_TITLE"));
         gui.setOnGlobalClick(inventoryClickEvent -> inventoryClickEvent.setCancelled(true));
         gui.setOnClose(event -> {
             if (!game.isCancelled())

@@ -1,7 +1,11 @@
 name: ChestSnake
 main: me.aleksilassila.chestsnake.ChestSnake
-version: 1.0.0
-api-version: 1.15
+version: '${project.version}'
+api-version: 1.18
+softdepend: [PlaceholderAPI]
+authors:
+  - aleksilassila
+  - sehrschlechtYT
 commands:
   snake:
     usage: /<command>

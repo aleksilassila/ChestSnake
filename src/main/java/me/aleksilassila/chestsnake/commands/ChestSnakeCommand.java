@@ -1,16 +1,16 @@
 package me.aleksilassila.chestsnake.commands;
 
-import com.sun.istack.internal.Nullable;
 import me.aleksilassila.chestsnake.ChestSnake;
+import me.aleksilassila.chestsnake.commands.subcommands.PlaySubcommand;
 import me.aleksilassila.chestsnake.commands.subcommands.HelpSubcommand;
 import me.aleksilassila.chestsnake.commands.subcommands.HighscoresSubcommand;
-import me.aleksilassila.chestsnake.commands.subcommands.PlaySubcommand;
 import me.aleksilassila.chestsnake.utils.Messages;
 import me.aleksilassila.chestsnake.utils.Permissions;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -36,7 +36,7 @@ public class ChestSnakeCommand implements TabExecutor {
         Player player = (Player) sender;
 
         if (!Permissions.PLAY.hasPermission(player)) {
-            player.sendMessage(Messages.get("error.NO_PERMISSION"));
+            player.sendMessage(Messages.get("error_NO_PERMISSION"));
             return true;
         }
 
@@ -44,13 +44,13 @@ public class ChestSnakeCommand implements TabExecutor {
             Subcommand target = getSubcommand(args[0]);
 
             if (target == null) {
-                player.sendMessage(Messages.get("error.SUBCOMMAND_NOT_FOUND"));
+                player.sendMessage(Messages.get("error_SUBCOMMAND_NOT_FOUND"));
                 getSubcommand("help").onCommand(player, new String[0]);
                 return true;
             }
 
             if (target.getPermission() != null && !player.hasPermission(target.getPermission())) {
-                player.sendMessage(Messages.get("error.NO_PERMISSION"));
+                player.sendMessage(Messages.get("error_NO_PERMISSION"));
                 return true;
             }
 
@@ -58,7 +58,7 @@ public class ChestSnakeCommand implements TabExecutor {
                 target.onCommand(player, Arrays.copyOfRange(args, 1, args.length));
                 return true;
             } catch (Exception e) {
-                player.sendMessage(Messages.get("error.ERROR"));
+                player.sendMessage(Messages.get("error_ERROR"));
                 return true;
             }
         }

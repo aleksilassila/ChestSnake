@@ -1,9 +1,9 @@
 package me.aleksilassila.chestsnake.commands.subcommands;
 
-import javafx.util.Pair;
 import me.aleksilassila.chestsnake.ChestSnake;
 import me.aleksilassila.chestsnake.commands.Subcommand;
 import me.aleksilassila.chestsnake.utils.Messages;
+import me.aleksilassila.chestsnake.utils.Pair;
 import me.aleksilassila.chestsnake.utils.Permissions;
 import org.bukkit.entity.Player;
 

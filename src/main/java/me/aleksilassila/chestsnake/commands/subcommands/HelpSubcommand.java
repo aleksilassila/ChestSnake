@@ -15,16 +15,16 @@ public class HelpSubcommand extends Subcommand {
 
     @Override
     public void onCommand(Player player, String[] args) {
-        player.sendMessage(Messages.get("info.VERSION_INFO", ChestSnake.instance.getDescription().getVersion()));
+        player.sendMessage(Messages.get("info_VERSION_INFO", ChestSnake.instance.getDescription().getVersion()));
 
-        Messages.send(player, "info.AVAILABLE_SUBCOMMANDS");
+        Messages.send(player, "info_AVAILABLE_SUBCOMMANDS");
 
         for (Subcommand subcommand : commands.subcommands) {
             if (subcommand.getPermission() == null || player.hasPermission(subcommand.getPermission()))
-                Messages.send(player, "info.AVAILABLE_SUBCOMMAND", subcommand.getName(), subcommand.help());
+                Messages.send(player, "info_AVAILABLE_SUBCOMMAND", subcommand.getName(), subcommand.help());
         }
 
-        Messages.send(player, "info.HOW_TO_PLAY");
+        Messages.send(player, "info_HOW_TO_PLAY");
     }
 
     @Override
